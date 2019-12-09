@@ -1,4 +1,4 @@
-package com.udemy.microservice.rest01.model;
+package com.udemy.microservice.rest01.hello;
 
 public class HelloBean {
 
