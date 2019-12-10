@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,40 +19,47 @@ public class UserResource {
 
 	@Autowired
 	private UserService userService;
-	
+
 	// GET /users
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getUsers() {
 		List<User> allUsers = getUserService().findAll();
 		return ResponseEntity.ok(allUsers);
 	}
-	
+
 	// GET /users/{id}
 	@GetMapping("/users/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Integer id) {
 		User userById = getUserService().findById(id);
 		if (userById == null) {
-			throw new UserNotFoundException("id="+id);
+			throw new UserNotFoundException("id=" + id);
 		}
 		return ResponseEntity.ok(userById);
 	}
-	
+
 	// POST /users
 	@PostMapping("/users")
 	public ResponseEntity<Object> postUser(@RequestBody User newUser) {
 		User savedUser = getUserService().save(newUser);
-		
-		URI location = ServletUriComponentsBuilder
-			.fromCurrentRequest()
-			.path("/{id}")
-			.buildAndExpand(savedUser.getId())
-			.toUri();
-		
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
+				.toUri();
+
+		return ResponseEntity.created(location).build();
+	}
+
+	// DELETE /users/{id}
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
+		User removedUser = getUserService().deleteById(id);
+		if (removedUser == null) {
+			throw new UserNotFoundException("id=" + id);
+		}
 		return ResponseEntity
-				.created(location)
+				.status(HttpStatus.NO_CONTENT)
 				.build();
 	}
-	
+
 	public UserService getUserService() {
 		return userService;
 	}
@@ -59,6 +67,5 @@ public class UserResource {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
-	
+
 }

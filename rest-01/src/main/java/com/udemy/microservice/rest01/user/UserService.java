@@ -44,4 +44,9 @@ public class UserService {
 	public User findById(int id) {
 		return users.get(id);
 	}
+	
+	public User deleteById(int id) {
+		User removedUser = users.remove(id);
+		return removedUser;
+	}
 }
