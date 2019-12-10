@@ -2,8 +2,10 @@ package com.udemy.microservice.rest01.exception;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,15 +39,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 				.body(exResponse);
 	}
 	
-//	@ExceptionHandler(HttpMessageNotReadableException.class)
-	public final ResponseEntity<Object> handleHttpMessageNotReadableExceptions(Exception ex, WebRequest request) {
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(
+			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+		final StringBuilder sb = new StringBuilder();
 		
-		ExceptionResponse exResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+		ExceptionResponse exResponse = new ExceptionResponse(
+				new Date(), 
+				"Validation Failed", 
+				ex.getBindingResult().toString());
 		
 		return ResponseEntity
-				.status(HttpStatus.BAD_REQUEST)
-				.body(exResponse);
+			.badRequest()
+			.body(exResponse);
 	}
-	
-	
 }

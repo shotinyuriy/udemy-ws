@@ -2,8 +2,14 @@ package com.udemy.microservice.rest01.user;
 
 import java.net.URI;
 import java.util.List;
+import java.util.TreeMap;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,22 +35,28 @@ public class UserResource {
 
 	// GET /users/{id}
 	@GetMapping("/users/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+	public EntityModel<User> getUserById(@PathVariable Integer id) {
 		User userById = getUserService().findById(id);
 		if (userById == null) {
 			throw new UserNotFoundException("id=" + id);
 		}
-		return ResponseEntity.ok(userById);
+
+		EntityModel<User> entityModel = new EntityModel<>(userById); // instead of Resource
+		WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getUsers()); // instead of ControllerLinkBuilder
+		
+		entityModel.add(linkTo.withRel("all-users"));
+		
+		return entityModel;
 	}
 
 	// POST /users
 	@PostMapping("/users")
-	public ResponseEntity<Object> postUser(@RequestBody User newUser) {
+	public ResponseEntity<Object> postUser(@Valid @RequestBody User newUser) {
 		User savedUser = getUserService().save(newUser);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
-
+		
 		return ResponseEntity.created(location).build();
 	}
 
