@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.LocaleEditor;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -45,6 +46,15 @@ public class HelloWorldResource {
 		} else {
 			locale = Locale.US;
 		}
+		
+		String message = messageSource.getMessage("message.good.morning", null, locale);
+		return new HelloBean(message+" "+name);
+	}
+	
+	@GetMapping("/hello-i18n-context/{name}")
+	public HelloBean helloI18nContext(@PathVariable("name") String name) {
+		
+		Locale locale = LocaleContextHolder.getLocale();
 		
 		String message = messageSource.getMessage("message.good.morning", null, locale);
 		return new HelloBean(message+" "+name);
