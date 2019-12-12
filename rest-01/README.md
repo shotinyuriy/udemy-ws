@@ -1,4 +1,8 @@
 
+# Swagger Links
+http://localhost:9001/v2/api-docs
+http://localhost:9001/swagger-ui.html
+
 # Troubleshooting
 If try to add swagger to your project and you see the following error:
 
