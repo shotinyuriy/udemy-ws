@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<spring-plugin.version>2.0.0.BUILD-SNAPSHOT</spring-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -40,6 +41,30 @@
 		    <groupId>com.fasterxml.jackson.dataformat</groupId>
 		    <artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
+		
+		<!-- START SWAGGER DEPENDECIES -->
+		
+		<dependency>
+			<!-- This is required to avoid problems with NoUniqueBeanDefinitionException related to plugins -->
+			<!-- Also spring-plugin.version was required to fix it -->
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>2.0.0.RELEASE</version>
+        </dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+		<!-- END SWAGGER DEPENDECIES -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -56,7 +81,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		
