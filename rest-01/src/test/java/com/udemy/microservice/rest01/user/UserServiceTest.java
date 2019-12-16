@@ -29,7 +29,7 @@ public class UserServiceTest {
 	
 	@Test
 	public void testSave() {
-		User newUser = userService.save(new User(null, "Maria Medved", new Date()));
+		User newUser = userService.save(new StaticUser(null, "Maria Medved", new Date()));
 		Assert.assertNotNull(newUser);
 		Assert.assertNotNull(newUser.getId());
 		

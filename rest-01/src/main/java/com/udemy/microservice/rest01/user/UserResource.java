@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -23,20 +24,21 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 public class UserResource {
 
+	@Qualifier("Java")
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 
 	// GET /users
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getUsers() {
-		List<User> allUsers = getUserService().findAll();
+		List<User> allUsers = getUserRepository().findAll();
 		return ResponseEntity.ok(allUsers);
 	}
 
 	// GET /users/{id}
 	@GetMapping("/users/{id}")
 	public EntityModel<User> getUserById(@PathVariable Integer id) {
-		User userById = getUserService().findById(id);
+		User userById = getUserRepository().findById(id);
 		if (userById == null) {
 			throw new UserNotFoundException("id=" + id);
 		}
@@ -51,8 +53,8 @@ public class UserResource {
 
 	// POST /users
 	@PostMapping("/users")
-	public ResponseEntity<Object> postUser(@Valid @RequestBody User newUser) {
-		User savedUser = getUserService().save(newUser);
+	public ResponseEntity<Object> postUser(@Valid @RequestBody StaticUser newUser) {
+		User savedUser = getUserRepository().save(newUser);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
@@ -63,7 +65,7 @@ public class UserResource {
 	// DELETE /users/{id}
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
-		User removedUser = getUserService().deleteById(id);
+		User removedUser = getUserRepository().deleteById(id);
 		if (removedUser == null) {
 			throw new UserNotFoundException("id=" + id);
 		}
@@ -72,12 +74,12 @@ public class UserResource {
 				.build();
 	}
 
-	public UserService getUserService() {
-		return userService;
+	public UserRepository getUserRepository() {
+		return userRepository;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setUserService(UserRepository userService) {
+		this.userRepository = userService;
 	}
 
 }

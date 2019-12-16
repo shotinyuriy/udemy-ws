@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+@Qualifier("Java")
 @Service
-public class UserService {
+public class UserService implements UserRepository {
 
 	private static final AtomicInteger userIdCount = new AtomicInteger(0);
 	private static Map<Integer, User> users = new ConcurrentHashMap<Integer, User>();
@@ -23,7 +25,7 @@ public class UserService {
 
 	private static void addUser(String name, Date birthDate) {
 		int userId = userIdCount.incrementAndGet();
-		users.put(userId, new User(userId, name, birthDate));
+		users.put(userId, new StaticUser(userId, name, birthDate));
 	}
 
 	public List<User> findAll() {
