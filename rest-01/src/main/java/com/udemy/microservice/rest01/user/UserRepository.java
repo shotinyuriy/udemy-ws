@@ -1,14 +1,10 @@
 package com.udemy.microservice.rest01.user;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository {
-
-	List<User> findAll();
-
-	User save(User user);
-
-	User findById(int id);
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	
-	User deleteById(int id);
+	
 }

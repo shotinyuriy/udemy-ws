@@ -18,27 +18,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-public class UserResource {
+@RequestMapping("/jpa")
+public class UserJpaResource {
 
-	@Qualifier("Java")
+	@Qualifier("Jpa")
 	@Autowired
 	private UserService userService;
 
 	// GET /users
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getUsers() {
-		List<User> allUsers = getUserService().findAll();
+		List<User> allUsers = getUserRepository().findAll();
 		return ResponseEntity.ok(allUsers);
 	}
 
 	// GET /users/{id}
 	@GetMapping("/users/{id}")
 	public EntityModel<User> getUserById(@PathVariable Integer id) {
-		User userById = getUserService().findById(id);
+		User userById = getUserRepository().findById(id);
 		if (userById == null) {
 			throw new UserNotFoundException("id=" + id);
 		}
@@ -54,7 +56,7 @@ public class UserResource {
 	// POST /users
 	@PostMapping("/users")
 	public ResponseEntity<Object> postUser(@Valid @RequestBody StaticUser newUser) {
-		User savedUser = getUserService().save(newUser);
+		User savedUser = getUserRepository().save(newUser);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
@@ -65,7 +67,7 @@ public class UserResource {
 	// DELETE /users/{id}
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
-		User removedUser = getUserService().deleteById(id);
+		User removedUser = getUserRepository().deleteById(id);
 		if (removedUser == null) {
 			throw new UserNotFoundException("id=" + id);
 		}
@@ -74,7 +76,7 @@ public class UserResource {
 				.build();
 	}
 
-	public UserService getUserService() {
+	public UserService getUserRepository() {
 		return userService;
 	}
 

@@ -11,7 +11,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class UserServiceTest {
 
-	private UserService userService = new UserService();
+	private UserServiceImpl userService = new UserServiceImpl();
 	
 	@Test
 	public void testFindAll() {
