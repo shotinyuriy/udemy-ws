@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
 	private static void addUser(String name, Date birthDate) {
 		int userId = userIdCount.incrementAndGet();
-		users.put(userId, new StaticUser(userId, name, birthDate));
+		users.put(userId, new UserPojo(userId, name, birthDate));
 	}
 
 	public List<User> findAll() {

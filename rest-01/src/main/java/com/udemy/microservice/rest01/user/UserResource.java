@@ -53,7 +53,7 @@ public class UserResource {
 
 	// POST /users
 	@PostMapping("/users")
-	public ResponseEntity<Object> postUser(@Valid @RequestBody StaticUser newUser) {
+	public ResponseEntity<Object> postUser(@Valid @RequestBody UserPojo newUser) {
 		User savedUser = getUserService().save(newUser);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
