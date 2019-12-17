@@ -2,14 +2,12 @@ package com.udemy.microservice.rest01.user;
 
 import java.net.URI;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +31,14 @@ public class UserJpaResource {
 	// GET /users
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getUsers() {
-		List<User> allUsers = getUserRepository().findAll();
+		List<User> allUsers = getUserService().findAll();
 		return ResponseEntity.ok(allUsers);
 	}
 
 	// GET /users/{id}
 	@GetMapping("/users/{id}")
 	public EntityModel<User> getUserById(@PathVariable Integer id) {
-		User userById = getUserRepository().findById(id);
+		User userById = getUserService().findById(id);
 		if (userById == null) {
 			throw new UserNotFoundException("id=" + id);
 		}
@@ -55,8 +53,8 @@ public class UserJpaResource {
 
 	// POST /users
 	@PostMapping("/users")
-	public ResponseEntity<Object> postUser(@Valid @RequestBody StaticUser newUser) {
-		User savedUser = getUserRepository().save(newUser);
+	public ResponseEntity<Object> postUser(@Valid @RequestBody UserEntity newUser) {
+		User savedUser = getUserService().save(newUser);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
@@ -67,7 +65,7 @@ public class UserJpaResource {
 	// DELETE /users/{id}
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
-		User removedUser = getUserRepository().deleteById(id);
+		User removedUser = getUserService().deleteById(id);
 		if (removedUser == null) {
 			throw new UserNotFoundException("id=" + id);
 		}
@@ -76,7 +74,7 @@ public class UserJpaResource {
 				.build();
 	}
 
-	public UserService getUserRepository() {
+	public UserService getUserService() {
 		return userService;
 	}
 

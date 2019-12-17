@@ -24,7 +24,11 @@ public class UserJpaServiceImpl implements UserService {
 
 	@Override
 	public User save(User user) {
-		return null;
+		if (user instanceof UserEntity) {
+			return userRepository.save((UserEntity)user);
+		} else {
+			throw new IllegalArgumentException("user should be an instance of UserEntity");
+		}
 	}
 
 	@Override
@@ -39,6 +43,12 @@ public class UserJpaServiceImpl implements UserService {
 
 	@Override
 	public User deleteById(int id) {
-		return null;
+		Optional<UserEntity> user = userRepository.findById(id);
+		if (user.isPresent()) {
+			userRepository.deleteById(id);
+			return user.get();
+		} else {
+			return null;
+		}
 	}
 }
