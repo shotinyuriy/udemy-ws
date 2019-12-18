@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.udemy.microservice.rest01.post.UserPostNotFoundException;
 import com.udemy.microservice.rest01.user.UserNotFoundException;
 
 
@@ -37,6 +38,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		return ResponseEntity
 				.status(HttpStatus.NOT_FOUND)
 				.body(exResponse);
+	}
+	
+	@ExceptionHandler(UserPostNotFoundException.class)
+	public final ResponseEntity<Object> handleUserPostNotFoundExceptions(Exception ex, WebRequest request) {
+		ExceptionResponse exResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+		
+		return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.body(exResponse);
 	}
 	
 	@Override

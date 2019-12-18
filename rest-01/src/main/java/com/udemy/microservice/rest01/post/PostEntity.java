@@ -5,9 +5,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udemy.microservice.rest01.user.UserEntity;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity(name="post")
 public class PostEntity {
@@ -16,6 +19,8 @@ public class PostEntity {
 	@GeneratedValue
 	private Integer id;
 	
+	@Size(min=2)
+	@ApiModelProperty(notes="Description should be at least 2 charachters")
 	private String description;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

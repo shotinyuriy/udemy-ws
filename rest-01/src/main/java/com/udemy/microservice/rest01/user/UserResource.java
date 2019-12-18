@@ -56,7 +56,10 @@ public class UserResource {
 	public ResponseEntity<Object> postUser(@Valid @RequestBody UserPojo newUser) {
 		User savedUser = getUserService().save(newUser);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(savedUser.getId())
 				.toUri();
 		
 		return ResponseEntity.created(location).build();

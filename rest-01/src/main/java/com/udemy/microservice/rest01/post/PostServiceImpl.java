@@ -14,4 +14,8 @@ public class PostServiceImpl implements PostService {
 	public List<PostEntity> findAll() {
 		return postRepository.findAll();
 	}
+	
+	public PostEntity save(PostEntity post) {
+		return postRepository.save(post);
+	}
 }
