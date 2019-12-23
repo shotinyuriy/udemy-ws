@@ -1,0 +1,12 @@
+2019-12-23 04:19:06.490 DEBUG 96782 --- [  restartedMain] o.s.c.e.PropertySourcesPropertyResolver  : Found key 'spring.application.name' in PropertySource 'configurationProperties' with value of type String
+2019-12-23 04:19:06.499  INFO 96782 --- [  restartedMain] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2019-12-23 04:19:06.522 DEBUG 96782 --- [  restartedMain] o.s.web.client.RestTemplate              : HTTP GET http://localhost:8888/limits-service/default
+2019-12-23 04:19:06.613 DEBUG 96782 --- [  restartedMain] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2019-12-23 04:19:07.687 DEBUG 96782 --- [  restartedMain] o.s.web.client.RestTemplate              : Response 200 OK
+2019-12-23 04:19:07.691 DEBUG 96782 --- [  restartedMain] o.s.web.client.RestTemplate              : Reading to [org.springframework.cloud.config.environment.Environment]
+2019-12-23 04:19:07.703  INFO 96782 --- [  restartedMain] c.c.c.ConfigServicePropertySourceLocator : Located environment: name=limits-service, profiles=[default], label=null, version=759553ba8f8984f478193b053170d6637181da65, state=null
+2019-12-23 04:19:07.704 DEBUG 96782 --- [  restartedMain] c.c.c.ConfigServicePropertySourceLocator : Environment limits-service has 1 property sources with 2 properties.
+2019-12-23 04:19:07.704  INFO 96782 --- [  restartedMain] b.c.PropertySourceBootstrapConfiguration : Located property source: OriginTrackedCompositePropertySource {name='configService', propertySources=[MapPropertySource@1391210958 {name='configClient', properties={config.client.version=759553ba8f8984f478193b053170d6637181da65}}, OriginTrackedMapPropertySource@1960367021 {name='file:///Users/yshotin/git/localconfig-repo/limits-service.properties', properties={limits-service.minimum=8, limits-service.maximum=888}}]}
+2019-12-23 04:19:07.742  INFO 96782 --- [  restartedMain] c.u.m.l.LimitsServiceApplication         : No active profile set, falling back to default profiles: default
+2019-12-23 04:19:07.742 DEBUG 96782 --- [  restartedMain] o.s.boot.SpringApplication               : Loading source class com.udemy.microservice.limitsservice.LimitsServiceApplication
+2019-12-23 04:19:07.751 DEBUG 96782 --- [  restartedMain] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@42028f70
