@@ -1,6 +1,6 @@
 package com.udemy.microservice.currencyexchangeservice;
 
-import java.math.BigDecimal;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -13,10 +13,16 @@ public class CurrencyExchangeController {
 
 	@Autowired
 	private Environment environment;
-	
+
+	@Autowired
+	private ExchangeValueRepository repository;
+
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
 	public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
-		ExchangeValue exchangeValue = new ExchangeValue(1000L, from, to, BigDecimal.valueOf(65.0));
+		ExchangeValue exchangeValue = repository.findByFromAndTo(from, to);
+		if (exchangeValue == null) {
+			throw new EntityNotFoundException();
+		}
 		exchangeValue.setPort(
 				Integer.parseInt(environment.getProperty("local.server.port")));
 		return exchangeValue;
