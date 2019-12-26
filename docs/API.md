@@ -6,3 +6,5 @@ http://localhost:8765/currency-exchange-service/currency-exchange/from/USD/to/IN
 # CURRENCY-CONVERSION-SERVICE
 http://localhost:8765/currency-conversion-service/currency-conversion/from/USD/to/INR/quantity/12.34
 
+# ZIPKIN
+http://localhost:9411/
