@@ -7,6 +7,10 @@ docker run -d -p 5672:5672 -p 4369:4369 --hostname my-rabbit --name udemy-rabbit
 curl -sSL https://zipkin.io/quickstart.sh | bash -s
 java -jar zipkin.jar
 
-RABBIT_URI=amqp://localhost java -jar zipkin.jar
+RABBIT_URI=amqp://localhost \
+java -jar zipkin.jar
+
+export RABBIT_URI=amqp://localhost
+java -jar zipkin.jar
 
 http://localhost:9411/zipkin/
